@@ -26,7 +26,7 @@ export const ProjectsList = () => {
             key={project.id}
             variant={`outline`}
             asChild
-            className="font-normal h-auto justify-start w-full text-start p-4"
+            className="font-normal dark:border h-auto justify-start w-full text-start p-4"
           >
             <Link href={`/projects/${project.id}`}>
               <div className="flex items-center gap-x-4">
