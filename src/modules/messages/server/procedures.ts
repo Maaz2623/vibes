@@ -25,8 +25,6 @@ export const messagesRouter = createTRPCRouter({
     create: baseProcedure.input(z.object({
         value: z.string().min(1, {
             message: "Prompt is required"
-        }).max(150, {
-            message: "Prompt is too long"
         }),
         projectId: z.string().min(1, {
             message: "Project ID is required"
