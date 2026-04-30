@@ -78,7 +78,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "An expert coding agent",
       system: PROMPT,
       model: gemini({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         apiKey: process.env.GEMINI_API_KEY!,
       }),
       tools: [
@@ -213,7 +213,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "A fragment title generator",
       system: FRAGMENT_TITLE_PROMPT,
       model: gemini({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         apiKey: process.env.GEMINI_API_KEY!,
       }),
     });
@@ -223,7 +223,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "A response generator",
       system: RESPONSE_PROMPT,
       model: gemini({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         apiKey: process.env.GEMINI_API_KEY!,
       }),
     });
@@ -302,5 +302,25 @@ export const codeAgentFunction = inngest.createFunction(
       files: result.state.data.files,
       summary: result.state.data.summary,
     };
+  },
+);
+
+export const test = inngest.createFunction(
+  { id: "summarize-contents", triggers: { event: "app/ticket.created" } },
+  async ({ event, step }) => {
+    // Create a new agent with a system prompt (you can add optional tools, too)
+    const writer = createAgent({
+      name: "writer",
+      system:
+        "You are an expert writer.  You write readable, concise, simple content.",
+      model: gemini({
+        model: "gemini-2.5-flash",
+        apiKey: process.env.GEMINI_API_KEY!,
+      }),
+    });
+
+    // Run the agent with an input.  This automatically uses steps
+    // to call your AI model.
+    const { output } = await writer.run("Write a tweet on how AI works");
   },
 );
